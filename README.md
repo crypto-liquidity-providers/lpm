@@ -19,3 +19,13 @@ git submodule update --init --recursive
 ```sh
 forge build
 ```
+
+## Deployment
+
+Depending on the network you're deploying to, and on your wallet, you might need provide different options to the following command. Consult the [`forge create`](https://book.getfoundry.sh/reference/forge/forge-create) documentation page for more information.
+
+```sh
+forge create [options...] LPM
+```
+
+If deployment is successful, the `LPM` contract address will be displayed.
