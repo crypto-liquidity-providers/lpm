@@ -7,19 +7,6 @@ import {IERC20} from "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 /// @notice Liquidity Provider Marketplace
 contract LPM {
 
-    // Events
-
-    event AdvanceTransfer(
-        address appContract,
-        IERC20 token,
-        address recipient,
-        uint256 amount,
-        uint256 fee,
-        uint256 deadline,
-        uint256 requestId,
-        address liquidityProvider
-    );
-
     // State variables
 
     mapping(address appContract =>
@@ -61,7 +48,6 @@ contract LPM {
             "LPM: advance already made"
         );
         authorizedRecipients[appContract][token][recipient][amount][fee][deadline][requestId] = msg.sender;
-        emit AdvanceTransfer(appContract, token, recipient, amount, fee, deadline, requestId, msg.sender);
         require(token.transferFrom(msg.sender, recipient, amount - fee), "LPM: failed transfer");
     }
 }
