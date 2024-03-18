@@ -30,7 +30,7 @@ contract LPM {
     ) external {
         address r = authorizedRecipients[msg.sender][token][recipient][amount][fee][deadline][requestId];
         if (r != address(0)) recipient = r;
-        require(token.transferFrom(msg.sender, recipient, amount), "LPM: failed transfer");
+        require(token.transferFrom(msg.sender, recipient, amount));
     }
 
     function advanceTransfer(
@@ -42,12 +42,11 @@ contract LPM {
         uint256 deadline,
         uint256 requestId
     ) external {
-        require(block.timestamp < deadline, "LPM: deadline elapsed");
+        require(block.timestamp < deadline);
         require(
-            authorizedRecipients[appContract][token][recipient][amount][fee][deadline][requestId] == address(0),
-            "LPM: advance already made"
+            authorizedRecipients[appContract][token][recipient][amount][fee][deadline][requestId] == address(0)
         );
         authorizedRecipients[appContract][token][recipient][amount][fee][deadline][requestId] = msg.sender;
-        require(token.transferFrom(msg.sender, recipient, amount - fee), "LPM: failed transfer");
+        require(token.transferFrom(msg.sender, recipient, amount - fee));
     }
 }
