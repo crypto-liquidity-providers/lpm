@@ -22,4 +22,10 @@ Depending on the network you're deploying to, and on your wallet, you might need
 forge create [options...] LPM
 ```
 
+For example, if you're running an `anvil` node, you can use any of the unlocked accounts.
+
+```sh
+forge create --unlocked --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 LPM
+```
+
 If deployment is successful, the `LPM` contract address will be displayed.
