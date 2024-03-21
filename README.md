@@ -5,6 +5,8 @@ This is a proof-of-concept for a liquidity provider marketplace meant to be used
 ## Dependencies
 
 - [`foundry`](https://book.getfoundry.sh/)
+- [`sunodo`](https://sunodo.io/)
+- [`jq`](https://jqlang.github.io/jq/)
 
 ## Setup
 
@@ -19,5 +21,5 @@ git submodule update --init --recursive
 If you're deploying to a local `anvil`, you can just run:
 
 ```sh
-make deploy
+./deploy.sh
 ```
