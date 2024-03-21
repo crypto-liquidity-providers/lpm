@@ -7,16 +7,27 @@ import {IERC20} from "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 /// @notice Liquidity Provider Marketplace
 contract LPM {
 
+    // Events
+
+    event AdvanceTransferred(
+        address indexed appContract,
+        IERC20 indexed token,
+        address indexed recipient,
+        uint256 amount,
+        uint256 fee,
+        uint256 deadline,
+        uint256 requestId
+    );
+
+    // Errors
+
+    error ERC20TransferFailed();
+    error DeadlineElapsed();
+    error AdvanceAlreadyTransferred();
+
     // State variables
 
-    mapping(address appContract =>
-        mapping(IERC20 token =>
-            mapping(address recipient =>
-                mapping(uint256 amount =>
-                    mapping(uint256 fee =>
-                        mapping(uint256 deadline =>
-                            mapping(uint256 requestId =>
-                                address))))))) authorizedRecipients;
+    mapping(bytes32 key => address) authorizedRecipients;
 
     // External functions
 
@@ -28,9 +39,25 @@ contract LPM {
         uint256 deadline,
         uint256 requestId
     ) external {
-        address r = authorizedRecipients[msg.sender][token][recipient][amount][fee][deadline][requestId];
-        if (r != address(0)) recipient = r;
-        require(token.transferFrom(msg.sender, recipient, amount));
+        address appContract = msg.sender;
+
+        bytes32 key = _generateKey(
+            appContract,
+            token,
+            recipient,
+            amount,
+            fee,
+            deadline,
+            requestId
+        );
+
+        address authorizedRecipient = authorizedRecipients[key];
+
+        if (authorizedRecipient != address(0)) {
+            recipient = authorizedRecipient;
+        }
+
+        _transferFromMessageSender(token, recipient, amount);
     }
 
     function advanceTransfer(
@@ -42,11 +69,65 @@ contract LPM {
         uint256 deadline,
         uint256 requestId
     ) external {
-        require(block.timestamp < deadline);
-        require(
-            authorizedRecipients[appContract][token][recipient][amount][fee][deadline][requestId] == address(0)
+        if (block.timestamp >= deadline) {
+            revert DeadlineElapsed();
+        }
+
+        bytes32 key = _generateKey(
+            appContract,
+            token,
+            recipient,
+            amount,
+            fee,
+            deadline,
+            requestId
         );
-        authorizedRecipients[appContract][token][recipient][amount][fee][deadline][requestId] = msg.sender;
-        require(token.transferFrom(msg.sender, recipient, amount - fee));
+
+        if (authorizedRecipients[key] != address(0)) {
+            revert AdvanceAlreadyTransferred();
+        }
+
+        authorizedRecipients[key] = msg.sender;
+
+        _transferFromMessageSender(token, recipient, amount - fee);
+
+        emit AdvanceTransferred(
+            appContract,
+            token,
+            recipient,
+            amount,
+            fee,
+            deadline,
+            requestId
+        );
+    }
+
+    function _generateKey(
+        address appContract,
+        IERC20 token,
+        address recipient,
+        uint256 amount,
+        uint256 fee,
+        uint256 deadline,
+        uint256 requestId
+    ) internal pure returns (bytes32) {
+        return keccak256(abi.encode(
+            appContract,
+            token,
+            recipient,
+            amount,
+            fee,
+            deadline,
+            requestId
+        ));
+    }
+
+    function _transferFromMessageSender(
+        IERC20 token,
+        address to,
+        uint256 amount
+    ) internal {
+        if (!token.transferFrom(msg.sender, to, amount))
+            revert ERC20TransferFailed();
     }
 }
