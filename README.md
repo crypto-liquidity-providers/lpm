@@ -25,7 +25,7 @@ forge create [options...] LPM
 For example, if you're running an `anvil` node, you can use any of the unlocked accounts.
 
 ```sh
-export ETH_FROM=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+export ETH_FROM='0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
 forge create --unlocked LPM
 ```
 
