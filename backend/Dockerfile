@@ -10,7 +10,8 @@ FROM node:20.8.0-bookworm as build-stage
 
 WORKDIR /opt/cartesi/dapp
 COPY . .
-RUN yarn install && yarn build
+RUN npm install -g pnpm
+RUN pnpm i && pnpm build
 
 # runtime stage: produces final image that will be executed
 
