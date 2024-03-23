@@ -10,8 +10,11 @@ FROM node:20.8.0-bookworm as build-stage
 
 WORKDIR /opt/cartesi/dapp
 COPY . .
-RUN npm install -g pnpm
-RUN pnpm i && pnpm build
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm run build
 
 # runtime stage: produces final image that will be executed
 
