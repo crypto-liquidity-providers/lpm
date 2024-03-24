@@ -2,22 +2,18 @@
 import { createApp } from "@deroll/app";
 import { createWallet } from "@deroll/wallet";
 import { encodeFunctionData, decodeFunctionData, parseAbi, Hex } from "viem";
+
 import lpmDeployment from "./deployments/lpm.json";
+import { erc20Abi } from "./erc20";
+
+// Constants
+const lpmContractAddress = lpmDeployment.address as Hex;
 
 // State variables
-const lpmContractAddress = lpmDeployment.address as Hex;
 let requestId : bigint = BigInt(0);
 
-// Parse contract ABIs
-const lpmContractAbi = parseAbi([
-    "function transfer(address token, address recipient, uint256 amount, uint256 fee, uint256 deadline, uint256 requestId)",
-]);
-
-const erc20Abi = parseAbi([
-    "function approve(address spender, uint256 value)",
-]);
-
-const advanceAbi = parseAbi([
+// Define advance request payload ABI
+const abi = parseAbi([
     "function withdraw(address token, uint256 amount, uint256 fee, uint256 deadline)",
 ]);
 
@@ -33,13 +29,7 @@ app.addAdvanceHandler(wallet.handler);
 // Handle input encoded as Solidity function calldata
 app.addAdvanceHandler(async ({ payload, metadata }) => {
 
-    const { functionName, args } = decodeFunctionData({
-        abi: advanceAbi,
-        data: payload,
-    });
-
-    console.log(`functionName: ${functionName}`);
-    console.log(`args: ${args}`);
+    const { functionName, args } = decodeFunctionData({ abi, data: payload });
 
     switch (functionName) {
         case "withdraw":
@@ -71,7 +61,7 @@ app.addAdvanceHandler(async ({ payload, metadata }) => {
                     wallet.withdrawERC20(token, msg_sender, amount);
 
                     const payload = encodeFunctionData({
-                        abi: lpmContractAbi,
+                        abi: lpmDeployment.abi,
                         functionName: "transfer",
                         args: [
                             token,
