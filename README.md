@@ -26,7 +26,7 @@ make deploy
 ```
 
 > [!NOTE]
-> If you run `git status` and some file under the [`deployments`](deployments) directory has changed,
+> If you run `git status` and some file under the [`deployments`](./backend/src/deployments) directory has changed,
 > you might want to re-run your back-end to make sure deployment addresses are synchronized.
 
 ## Deposit ERC-20 tokens
@@ -35,4 +35,4 @@ Run the `sunodo send erc20` command and input the required fields interactively.
 
 > [!TIP]
 > The `make deploy` command also deploys a test ERC-20 token contract, mints tokens, and gives allowance to the ERC-20 portal.
-> You can retrieve the address of the test ERC-20 token contract by taking a peek at the [`deployments/token.json`](deployments/token.json) file.
+> You can retrieve the address of the test ERC-20 token contract by taking a peek at the [`token.json`](./backend/src/deployments/token.json) file.
