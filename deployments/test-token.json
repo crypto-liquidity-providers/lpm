@@ -325,10 +325,10 @@
     "1000000000"
   ],
   "linkedLibraries": {},
-  "deployTxnHash": "",
+  "deployTxnHash": "0x11aaf74e7bbac5dbebed615e46c7edb2440353ea59ce93b456479f5e881acf53",
   "sourceName": "contracts/TestToken.sol",
   "contractName": "TestToken",
   "deployedOn": "contract.test-token",
-  "gasUsed": 0,
-  "gasCost": "0"
+  "gasUsed": 528473,
+  "gasCost": "1877069975"
 }

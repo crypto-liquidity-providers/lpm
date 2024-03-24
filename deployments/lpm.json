@@ -149,10 +149,10 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "",
+  "deployTxnHash": "0xc5212b75572312fcfde3dcb27f866acd44e6557d0920c673c82c9d9db35f4c00",
   "sourceName": "contracts/LPM.sol",
   "contractName": "LPM",
   "deployedOn": "contract.lpm",
-  "gasUsed": 0,
-  "gasCost": "0"
+  "gasUsed": 248397,
+  "gasCost": "2000000000"
 }
