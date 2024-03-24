@@ -4,9 +4,9 @@ This is a proof-of-concept for a liquidity provider marketplace meant to be used
 
 ## Dependencies
 
-- [`foundry`](https://book.getfoundry.sh/)
+- [`foundry`](https://book.getfoundry.sh)
 - [`jq`](https://jqlang.github.io/jq/)
-- [`sunodo`](https://sunodo.io/)
+- [`sunodo`](https://sunodo.io)
 
 ## Setup
 
