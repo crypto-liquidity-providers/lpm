@@ -4,7 +4,7 @@ version = "0.1.0"
 
 [setting.totalSupply]
 description = "The total supply of ERC-20 tokens"
-defaultValue = "1000000000"
+defaultValue = "1000000000000000000000"
 type = "number"
 
 [setting.erc20PortalAddress]
