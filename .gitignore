@@ -2,3 +2,7 @@
 
 /out/
 /cache/
+
+# Node
+
+/node_modules/
