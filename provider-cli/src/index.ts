@@ -49,9 +49,16 @@ program
         "Address of the LPM contract at the base layer of the application",
         "0x08d08e320e2b25184173331FcCCa122E4129523f",
     )
+    .option(
+        "-d, --debug",
+        "Debug mode",
+        false
+    )
     .action(async (appContract, options) => {
         console.log("App:", appContract);
-        console.log("Options:", options);
+        if (options.debug) {
+            console.log("Options:", options);
+        }
 
         const { lpmContract, graphqlUrl, rpcUrl } = options;
 
