@@ -34,7 +34,6 @@ add_input() {
 }
 
 add_input 'setLPM(address)' "$LPM"
-add_input 'approve(address,uint256)' "$TOKEN" "$TOTAL_SUPPLY"
 
 FEE=5
 TIMESTAMP=`cast block -f timestamp latest`
