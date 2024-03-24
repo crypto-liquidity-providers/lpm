@@ -1,7 +1,7 @@
 {
-  "name": "my-dapp",
+  "name": "backend",
   "version": "0.1.0",
-  "description": "TypeScript DApp",
+  "description": "Back-end example for LPM",
   "dependencies": {
     "@deroll/app": "^0.5.0",
     "@deroll/wallet": "^0.4.0",
