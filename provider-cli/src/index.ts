@@ -19,15 +19,25 @@ const addressParse = (value: string, _previous: Address): Address => {
     throw new InvalidArgumentError("Invalid address");
 };
 
+// option parse as decimal number
+const decimalNumberParse = (value: string, _previous: number): number => {
+    const parsedValue = parseInt(value, 10);
+    if (isNaN(parsedValue)) {
+        throw new InvalidArgumentError("Not a number");
+    }
+    return parsedValue;
+};
+
 program
     .name("lpm-provider-cli")
     .description(
         "CLI for LPM Providers to advance transfers as vouchers are emitted",
     )
-    .argument(
-        "<app>",
+    .option(
+        "-a, --application-contract <address>",
         "Address of an application that emits LPM vouchers",
         addressParse,
+        "0x70ac08179605AF2D9e75782b8DEcDD3c22aA4D0C",
     )
     .option(
         "-g, --graphql-url <url>",
@@ -54,13 +64,12 @@ program
         "Debug mode",
         false
     )
-    .action(async (appContract, options) => {
-        console.log("App:", appContract);
+    .action(async (options) => {
         if (options.debug) {
             console.log("Options:", options);
         }
 
-        const { lpmContract, graphqlUrl, rpcUrl } = options;
+        const { applicationContract, lpmContract, graphqlUrl, rpcUrl } = options;
 
         // create VoucherFetcher
         const voucherFetcher = new VoucherFetcher(graphqlUrl);
@@ -78,7 +87,7 @@ program
 
         // start application
         const application = new App(
-            appContract,
+            applicationContract,
             lpmContract as Hex,
             voucherFetcher,
             publicClient,
