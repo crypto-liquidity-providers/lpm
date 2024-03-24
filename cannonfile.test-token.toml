@@ -2,6 +2,11 @@ name = "test-token"
 description = "Test ERC-20 token"
 version = "0.1.0"
 
+[setting.tokenOwner]
+description = "The initial owner of all ERC-20 tokens"
+defaultValue = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+type = "string"
+
 [setting.totalSupply]
 description = "The total supply of ERC-20 tokens"
 defaultValue = "1000000000000000000000"
@@ -14,7 +19,7 @@ type = "string"
 
 [contract.token]
 artifact = "TestToken"
-args = ["<%= settings.totalSupply %>"]
+args = ["<%= settings.tokenOwner %>", "<%= settings.totalSupply %>"]
 create2 = true
 
 [invoke.approve]
