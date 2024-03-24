@@ -35,7 +35,7 @@ app.addAdvanceHandler(async ({ payload, metadata }) => {
             {
                 const [token, amount, fee, deadline] = args;
 
-               // approve
+                // approve
                 {
                     const payload = encodeFunctionData({
                         abi: erc20Abi,
