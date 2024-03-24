@@ -7,7 +7,17 @@ description = "The total supply of ERC-20 tokens"
 defaultValue = "1000000000"
 type = "number"
 
-[contract.test-token]
+[setting.erc20PortalAddress]
+description = "Address of the ERC-20 portal"
+defaultValue = "0x9C21AEb2093C32DDbC53eEF24B873BDCd1aDa1DB"
+type = "string"
+
+[contract.token]
 artifact = "TestToken"
 args = ["<%= settings.totalSupply %>"]
 create2 = true
+
+[invoke.approve]
+target = ["token"]
+func = "approve"
+args = ["<%= settings.erc20PortalAddress %>", "<%= settings.totalSupply %>"]
