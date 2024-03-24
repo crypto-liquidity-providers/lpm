@@ -1,6 +1,5 @@
 CANNON_CHAIN_ID=31337
 CANNON_PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
-DEPLOYMENTS_DIR=./deployments
 
 .PHONY: deploy
 deploy: deploy-lpm deploy-test-token
@@ -15,7 +14,7 @@ deploy-lpm:
 	cannon inspect \
 		lpm:latest \
 		--chain-id "${CANNON_CHAIN_ID}" \
-		--write-deployments "${DEPLOYMENTS_DIR}"
+		--write-deployments ./deployments
 
 .PHONY: deploy-test-token
 deploy-test-token:
@@ -27,4 +26,4 @@ deploy-test-token:
 	cannon inspect \
 		test-token:latest \
 		--chain-id "${CANNON_CHAIN_ID}" \
-		--write-deployments "${DEPLOYMENTS_DIR}"
+		--write-deployments ./deployments

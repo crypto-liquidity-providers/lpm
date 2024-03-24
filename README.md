@@ -19,8 +19,12 @@ git submodule update --init --recursive
 
 ## Deployment
 
-While `nonodo` or `sunodo` is running on the background, you may deploy the contracts.
+With `sunodo` (or `nonodo`) running on the background, you may deploy the contracts.
 
 ```sh
 make deploy
 ```
+
+> [!NOTE]
+> If you run `git status` and some file under the `./deployments` directory has changed,
+> you might want to re-run your back-end to make sure deployment addresses are synchronized.

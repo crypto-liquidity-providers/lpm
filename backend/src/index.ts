@@ -2,9 +2,10 @@
 import { createApp } from "@deroll/app";
 import { createWallet } from "@deroll/wallet";
 import { encodeFunctionData, decodeFunctionData, parseAbi, Hex } from "viem";
+import lpmDeployment from "./deployments/lpm.json";
 
 // State variables
-let lpmContractAddress : Hex = "0xc22107f40E3Bb32dB949D236c50e33424C2f8b9a";
+const lpmContractAddress = lpmDeployment.address as Hex;
 let requestId : bigint = BigInt(0);
 
 // Parse contract ABIs
