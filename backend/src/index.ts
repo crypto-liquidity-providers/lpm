@@ -1,9 +1,10 @@
 // Import necessary modules
 import { createApp } from "@deroll/app";
 import { createWallet } from "@deroll/wallet";
-import { encodeFunctionData, decodeFunctionData, parseAbi, Hex } from "viem";
+import { encodeFunctionData, decodeFunctionData, Hex } from "viem";
 
 import lpmDeployment from "./deployments/lpm.json";
+import { advanceAbi } from "./advance";
 import { erc20Abi } from "./erc20";
 
 // Constants
@@ -11,11 +12,6 @@ const lpmContractAddress = lpmDeployment.address as Hex;
 
 // State variables
 let requestId : bigint = BigInt(0);
-
-// Define advance request payload ABI
-const abi = parseAbi([
-    "function withdraw(address token, uint256 amount, uint256 fee, uint256 deadline)",
-]);
 
 // Create the application
 const app = createApp({ url: process.env.ROLLUP_HTTP_SERVER_URL! });
@@ -29,7 +25,10 @@ app.addAdvanceHandler(wallet.handler);
 // Handle input encoded as Solidity function calldata
 app.addAdvanceHandler(async ({ payload, metadata }) => {
 
-    const { functionName, args } = decodeFunctionData({ abi, data: payload });
+    const { functionName, args } = decodeFunctionData({
+        abi: advanceAbi,
+        data: payload
+    });
 
     switch (functionName) {
         case "withdraw":
