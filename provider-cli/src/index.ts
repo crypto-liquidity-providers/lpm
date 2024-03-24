@@ -41,7 +41,7 @@ program
     )
     .option(
         "-m, --mnemonic <string>",
-        " BIP-39 mnemonic phrase to define the account that will execute advance transfers on the base layer",
+        "BIP-39 mnemonic phrase to define the account that will execute advance transfers on the base layer",
         "test test test test test test test test test test test junk",
     )
     .option(
@@ -81,4 +81,4 @@ program
         console.log("application started");
     });
 
-program.parse(process.argv);
+program.parse();
