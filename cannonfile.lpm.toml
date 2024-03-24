@@ -1,0 +1,7 @@
+name = "lpm"
+description = "Liquidity Provider Marketplace"
+version = "0.1.0"
+
+[contract.lpm]
+artifact = "LPM"
+create2 = true

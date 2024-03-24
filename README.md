@@ -4,6 +4,7 @@ This is a proof-of-concept for a liquidity provider marketplace meant to be used
 
 ## Dependencies
 
+- [`cannon`](https://usecannon.com)
 - [`foundry`](https://book.getfoundry.sh)
 - [`jq`](https://jqlang.github.io/jq/)
 - [`sunodo`](https://sunodo.io)
@@ -18,8 +19,8 @@ git submodule update --init --recursive
 
 ## Deployment
 
-If you're deploying to a local `anvil`, you can just run:
+While `nonodo` or `sunodo` is running on the background, you may deploy the contracts.
 
 ```sh
-./deploy.sh
+make deploy
 ```

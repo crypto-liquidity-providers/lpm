@@ -1,0 +1,13 @@
+name = "test-token"
+description = "Test ERC-20 token"
+version = "0.1.0"
+
+[setting.totalSupply]
+description = "The total supply of ERC-20 tokens"
+defaultValue = "1000000000"
+type = "number"
+
+[contract.test-token]
+artifact = "TestToken"
+args = ["<%= settings.totalSupply %>"]
+create2 = true
