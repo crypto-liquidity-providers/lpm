@@ -21,7 +21,6 @@ const erc20Abi = parseAbi([
 const app = createApp({ url: process.env.ROLLUP_HTTP_SERVER_URL || "http://127.0.0.1:5004" });
 
 const advanceAbi = parseAbi([
-    "function approve(address token, uint256 amount)",
     "function setLPM(address lpm)",
     "function withdraw(address token, uint256 amount, uint256 fee, uint256 deadline)",
 ]);
@@ -44,31 +43,6 @@ app.addAdvanceHandler(async ({ payload, metadata }) => {
     console.log(`args: ${args}`);
 
     switch (functionName) {
-        case "approve":
-            {
-                const [token, amount] = args;
-
-                if (lpmContractAddress === undefined) {
-                    console.log("LPM contract address not defined");
-                    return "reject";
-                }
-
-                const payload = encodeFunctionData({
-                    abi: erc20Abi,
-                    functionName: "approve",
-                    args: [
-                        lpmContractAddress,
-                        amount,
-                    ]
-                });
-
-                app.createVoucher({
-                    destination: token,
-                    payload: payload
-                });
-
-                return "accept";
-            }
         case "setLPM":
             {
                 const [lpm] = args;
@@ -97,29 +71,47 @@ app.addAdvanceHandler(async ({ payload, metadata }) => {
                     console.log("LPM contract address not defined");
                     return "reject";
                 }
+                
+                // approve
+                {
+                    const payload = encodeFunctionData({
+                        abi: erc20Abi,
+                        functionName: "approve",
+                        args: [
+                            lpmContractAddress,
+                            amount,
+                        ]
+                    });
 
-                // Raises an error if msg.sender doesn't have enough tokens
-                wallet.withdrawERC20(token, msg_sender, amount);
+                    app.createVoucher({
+                        destination: token,
+                        payload: payload
+                    });
+                }
 
-                const payload = encodeFunctionData({
-                    abi: lpmContractAbi,
-                    functionName: "transfer",
-                    args: [
-                        token,
-                        msg_sender,
-                        amount,
-                        fee,
-                        deadline,
-                        requestId
-                    ],
-                })
+                // transfer
+                {
+                    // Raises an error if msg.sender doesn't have enough tokens
+                    wallet.withdrawERC20(token, msg_sender, amount);
 
-                app.createVoucher({
-                    destination: lpmContractAddress,
-                    payload: payload,
-                });
+                    const payload = encodeFunctionData({
+                        abi: lpmContractAbi,
+                        functionName: "transfer",
+                        args: [
+                            token,
+                            msg_sender,
+                            amount,
+                            fee,
+                            deadline,
+                            requestId++
+                        ],
+                    })
 
-                requestId++;
+                    app.createVoucher({
+                        destination: lpmContractAddress,
+                        payload: payload,
+                    });
+                }
 
                 return "accept";
             }
