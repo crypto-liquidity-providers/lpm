@@ -12,7 +12,7 @@ LPM=`forge create --json --unlocked LPM | jq -r '.deployedTo'`
 echo "Deployed LPM contract to $LPM"
 
 TOTAL_SUPPLY=`cast max-uint`
-TOKEN=`forge create --json --unlocked Token --constructor-args "$TOTAL_SUPPLY" | jq -r '.deployedTo'`
+TOKEN=`forge create --json --unlocked TestToken --constructor-args "$TOTAL_SUPPLY" | jq -r '.deployedTo'`
 
 echo "Deployed ERC-20 token contract to $TOKEN"
 
